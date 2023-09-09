@@ -2,8 +2,12 @@
 
 ### First : clone the repo
 
+click on Use This Template and create new Repo
+
+then clone the repo
+
 ```bash
-git clone https://github.com/elsayed85/laravel-microservices-redis.git
+git clone https://github.com/{yourGithubUser}/laravel-microservices-redis.git
 ```
 
 ### Second : install the dependencies
