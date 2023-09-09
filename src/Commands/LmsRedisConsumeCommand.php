@@ -22,6 +22,7 @@ class LmsRedisConsumeCommand extends Command
     private function getLmsServiceClass()
     {
         $service = config('lms-redis.service');
+
         return new $service;
     }
 
@@ -37,5 +38,4 @@ class LmsRedisConsumeCommand extends Command
             $this->redisService->addProcessedEvent($event);
         }
     }
-
 }
