@@ -1,6 +1,6 @@
 ## Development
 
-### First : clone the repo
+### clone the repo
 
 click on Use This Template and create new Repo
 
@@ -10,7 +10,7 @@ then clone the repo
 git clone https://github.com/{yourGithubUser}/laravel-microservices-redis.git
 ```
 
-### Second : install the dependencies
+### install the dependencies
 
 ```bash
 composer install
@@ -64,6 +64,8 @@ php artisan vendor:publish --tag="lms-redis-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
 return [
     "service" => \Elsayed85\LmsRedis\LmsRedis::class,
 ];
@@ -169,6 +171,10 @@ class Product extends Model
 ### AddAction To Controller
 
 ```php
+<?php
+
+namespace App\Http\Controllers;
+
 use App\Actions\CreateProductAction;
 use App\Http\Requests\StoreProductRequest;
 
@@ -192,6 +198,7 @@ class ProductController extends Controller
 ### Add Api Endpoint To Routes
 
 ```php
+<?php
 use App\Http\Controllers\ProductController;
 
 Route::post('/v1/products', [ProductController::class, 'store']);
