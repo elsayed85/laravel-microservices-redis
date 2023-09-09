@@ -7,6 +7,7 @@ class Enum
     private static function all()
     {
         $services = scandir(__DIR__.'/../Services');
+
         return collect($services)
             ->filter(function ($service) {
                 return is_dir(__DIR__.'/../Services/'.$service);
@@ -16,12 +17,14 @@ class Enum
             })
             ->map(function ($service) {
                 $enumFiles = scandir(__DIR__.'/../Services/'.$service.'/Enum');
+
                 return collect($enumFiles)
                     ->reject(function ($file) {
                         return in_array($file, ['.', '..']);
                     })
                     ->map(function ($file) use ($service) {
                         $fileName = explode('.', $file)[0];
+
                         return 'Elsayed85\\LmsRedis\\Services\\'.$service.'\\Enum\\'.$fileName;
                     })
                     ->toArray();
@@ -42,6 +45,7 @@ class Enum
                 return $case;
             }
         }
+
         return null;
     }
 }

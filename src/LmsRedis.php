@@ -2,10 +2,10 @@
 
 namespace Elsayed85\LmsRedis;
 
-use Elsayed85\LmsRedis\Services\Event;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Redis;
+use Elsayed85\LmsRedis\Services\Event;
 use Elsayed85\LmsRedis\Utils\Enum;
+use Illuminate\Support\Facades\Redis;
 
 abstract class LmsRedis
 {
@@ -71,7 +71,7 @@ abstract class LmsRedis
             (int) Carbon::now()->valueOf()
         );
 
-        if (!$events) {
+        if (! $events) {
             return [];
         }
 
@@ -89,6 +89,7 @@ abstract class LmsRedis
                     ['id' => $id]
                 );
                 $event['type'] = Enum::From($event);
+
                 return $event;
             })->all();
     }
