@@ -54,7 +54,7 @@ composer require elsayed85/lms-redis "@dev"
 You Must publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Elsayed85\LmsRedis\LmsRedisServiceProvider" --tag="lms-redis-config"
+php artisan vendor:publish --tag="lms-redis-config"
 ```
 
 This is the contents of the published config file:
@@ -72,7 +72,7 @@ Replace the service with the project redis service class (Created For You)
 Also You Must Publish The Consume Command If You want To Handel The Incoming Redis Stream Events
 
 ```bash
-php artisan vendor:publish --provider="Elsayed85\LmsRedis\LmsRedisServiceProvider" --tag="lms-redis-consume-command"
+php artisan vendor:publish --tag="lms-redis-consume-command"
 ```
 
 NOTE : You need to schedule function in App\Console\Kernel.php
