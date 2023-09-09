@@ -2,7 +2,6 @@
 
 namespace Elsayed85\LmsRedis\Console\Commands\Service;
 
-
 use Elsayed85\LmsRedis\Console\Command;
 use Elsayed85\LmsRedis\Utils\Enum;
 
@@ -20,11 +19,13 @@ class CreateServiceCommand extends Command
 
         if (preg_match('/^\d/', $name)) {
             $output->writeln('<error>Service name must not start with number!</error>');
+
             return 1;
         }
 
         if (preg_match('/[^A-Za-z0-9]/', $name)) {
             $output->writeln('<error>Service name must not contain special characters!</error>');
+
             return 1;
         }
 
@@ -110,7 +111,7 @@ class CreateServiceCommand extends Command
 
     private function getServiceName($name): string
     {
-        if (!str_ends_with($name, 'Service')) {
+        if (! str_ends_with($name, 'Service')) {
             return $name.'Service';
         }
 

@@ -2,10 +2,10 @@
 
 namespace Elsayed85\LmsRedis;
 
+use Elsayed85\LmsRedis\Commands\LmsRedisCommand;
 use Elsayed85\LmsRedis\Commands\LmsRedisInstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Elsayed85\LmsRedis\Commands\LmsRedisCommand;
 
 class LmsRedisServiceProvider extends PackageServiceProvider
 {
@@ -16,7 +16,7 @@ class LmsRedisServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasCommands([
                 LmsRedisCommand::class,
-                LmsRedisInstallCommand::class
+                LmsRedisInstallCommand::class,
             ]);
     }
 }

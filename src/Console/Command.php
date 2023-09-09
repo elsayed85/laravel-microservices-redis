@@ -17,7 +17,7 @@ abstract class Command extends BaseCommand
 
     private array $arguments;
 
-    protected abstract function handle($input, $output): ?int;
+    abstract protected function handle($input, $output): ?int;
 
     private function parseCommand(): void
     {

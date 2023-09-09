@@ -29,6 +29,6 @@ class Application extends BaseApplication
             $this->commands[] = 'Elsayed85\\LmsRedis\\Console\\Commands\\'.$command;
         }
 
-        $this->addCommands(array_map(fn($command) => new $command, $this->commands));
+        $this->addCommands(array_map(fn ($command) => new $command, $this->commands));
     }
 }

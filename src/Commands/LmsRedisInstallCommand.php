@@ -14,8 +14,9 @@ class LmsRedisInstallCommand extends Command
     {
         $this->info('Installing Redis...');
 
-        if (!$this->installRedis()) {
+        if (! $this->installRedis()) {
             $this->error('Redis installation failed');
+
             return self::FAILURE;
         }
 
@@ -28,6 +29,7 @@ class LmsRedisInstallCommand extends Command
         if (strtoupper(substr($os, 0, 3)) === 'WIN') {
             return 'windows';
         }
+
         return 'linux';
     }
 
@@ -45,10 +47,12 @@ class LmsRedisInstallCommand extends Command
     {
         if (shell_exec('redis-server --version')) {
             $this->info('Redis is already installed');
+
             return true;
         }
 
         $this->info('please install redis manually from https://redis.io/docs/getting-started/installation/install-redis-on-windows/');
+
         return false;
     }
 
@@ -56,6 +60,7 @@ class LmsRedisInstallCommand extends Command
     {
         if (shell_exec('redis-server --version')) {
             $this->info('Redis is already installed');
+
             return true;
         }
 
@@ -71,6 +76,7 @@ class LmsRedisInstallCommand extends Command
             $this->info('Redis installed successfully');
         } catch (\Exception $e) {
             $this->error('Redis installation failed');
+
             return false;
         }
 
