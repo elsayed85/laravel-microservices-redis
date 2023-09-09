@@ -1,17 +1,20 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "elsayed85/lms-redis",
+    "description": "Laravel Micro Service Redis",
     "keywords": [
-        ":vendor_name",
+        "elsayed85",
         "laravel",
-        ":package_slug"
+        "lms-redis",
+        "redis",
+        "microservice",
+        "micro-service"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/elsayed85/lms-redis",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Elsayed Kamal",
+            "email": "elsayedkamal581999@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,19 +38,19 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Elsayed85\\LmsRedis\\": "src/",
+            "Elsayed85\\LmsRedis\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Elsayed85\\LmsRedis\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-lms-redis --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +76,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Elsayed85\\LmsRedis\\LmsRedisServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
             }
         }
     },
