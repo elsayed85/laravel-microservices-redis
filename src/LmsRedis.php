@@ -3,9 +3,10 @@
 namespace Elsayed85\LmsRedis;
 
 use Carbon\Carbon;
+use Elsayed85\LmsRedis\Facades\Redis;
 use Elsayed85\LmsRedis\Services\Event;
 use Elsayed85\LmsRedis\Utils\Enum;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Log;
 
 abstract class LmsRedis
 {
@@ -47,17 +48,22 @@ abstract class LmsRedis
     {
         $lastProcessedEventId = $this->getLastProcessedEventId(); // [timestamp]
 
+        if (empty($lastProcessedEventId)) {
+            return [];
+        }
+
+
         $events = $this->getEventsAfter($lastProcessedEventId);
 
         return $this->parseEvents($events);
     }
 
-    private function getLastProcessedEventId(): string
+    private function getLastProcessedEventId(): ?string
     {
         $lastId = Redis::lindex($this->getProcessedEventKey(), -1);
 
         if (empty($lastId)) {
-            return (string) Carbon::now()->subYears(10)->valueOf(); // return all events if no processed events found
+            return (string) Carbon::now()->subYears(10)->valueOf();
         }
 
         return $lastId;
@@ -71,7 +77,7 @@ abstract class LmsRedis
             (int) Carbon::now()->valueOf()
         );
 
-        if (! $events) {
+        if (!$events) {
             return [];
         }
 
@@ -88,7 +94,8 @@ abstract class LmsRedis
                     json_decode($item['event'], true),
                     ['id' => $id]
                 );
-                $event['type'] = Enum::From($event);
+
+                $event['type'] = Enum::From($event['type']);
 
                 return $event;
             })->all();

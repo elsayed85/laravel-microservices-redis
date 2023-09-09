@@ -79,6 +79,7 @@
                 "Elsayed85\\LmsRedis\\LmsRedisServiceProvider"
             ],
             "aliases": {
+                "Redis": "ElSayed85\\LmsRedis\\Facades\\Redis"
             }
         }
     },
