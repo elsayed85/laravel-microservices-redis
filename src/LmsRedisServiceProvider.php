@@ -28,6 +28,7 @@ class LmsRedisServiceProvider extends PackageServiceProvider
 
         $this->app->singleton('lms-redis', function ($app) {
             $config = $app->make('config')->get('lms-redis.redis', []);
+
             return new RedisManager($app, Arr::pull($config, 'client', 'phpredis'), $config);
         });
 

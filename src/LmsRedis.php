@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Elsayed85\LmsRedis\Facades\Redis;
 use Elsayed85\LmsRedis\Services\Event;
 use Elsayed85\LmsRedis\Utils\Enum;
-use Illuminate\Support\Facades\Log;
 
 abstract class LmsRedis
 {
@@ -52,7 +51,6 @@ abstract class LmsRedis
             return [];
         }
 
-
         $events = $this->getEventsAfter($lastProcessedEventId);
 
         return $this->parseEvents($events);
@@ -77,7 +75,7 @@ abstract class LmsRedis
             (int) Carbon::now()->valueOf()
         );
 
-        if (!$events) {
+        if (! $events) {
             return [];
         }
 
