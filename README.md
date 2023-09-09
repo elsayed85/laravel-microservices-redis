@@ -98,7 +98,7 @@ return [
 ];
 ```
 
-Replace the service with the project redis service class (Created For You)
+Replace the service with the project redis service class (Created For You) [Example : ProductRedisService::class]
 
 ### Consume Command [Optional]
 
