@@ -1,5 +1,3 @@
-## Build Your MicroService App With Laravel & Redis
-
 ## Development
 
 ### First : clone the repo
