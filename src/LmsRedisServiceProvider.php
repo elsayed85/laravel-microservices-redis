@@ -14,7 +14,7 @@ class LmsRedisServiceProvider extends PackageServiceProvider
             ->name('lms-redis')
             ->hasConfigFile()
             ->hasCommands([
-                LmsRedisInstallCommand::class
+                LmsRedisInstallCommand::class,
             ]);
     }
 
@@ -25,7 +25,6 @@ class LmsRedisServiceProvider extends PackageServiceProvider
         $this->publishes([
             __DIR__.'/Commands/LmsRedisConsumeCommand.php' => app_path('Console/Commands/LmsRedisConsumeCommand.php'),
         ], 'lms-redis-consume-command');
-
 
     }
 }
