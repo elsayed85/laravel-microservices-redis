@@ -5,7 +5,6 @@ namespace Elsayed85\LmsRedis;
 use Elsayed85\LmsRedis\Commands\LmsRedisInstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Elsayed85\LmsRedis\Commands\LmsRedisCommand;
 
 class LmsRedisServiceProvider extends PackageServiceProvider
 {
@@ -15,8 +14,18 @@ class LmsRedisServiceProvider extends PackageServiceProvider
             ->name('lms-redis')
             ->hasConfigFile()
             ->hasCommands([
-                LmsRedisCommand::class,
                 LmsRedisInstallCommand::class
             ]);
+    }
+
+    public function boot()
+    {
+        parent::boot();
+
+        $this->publishes([
+            __DIR__.'/Commands/LmsRedisConsumeCommand.php' => app_path('Console/Commands/LmsRedisConsumeCommand.php'),
+        ], 'lms-redis-consume-command');
+
+
     }
 }

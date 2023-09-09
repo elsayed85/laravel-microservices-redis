@@ -15,8 +15,8 @@ abstract class LmsRedis
 
     public function __construct()
     {
-        $this->allEventsKey = config('lms-redis.keys.all');
-        $this->processedEventsKey = config('lms-redis.keys.processed');
+        $this->allEventsKey = "events";
+        $this->processedEventsKey = "processed_events";
     }
 
     abstract public function getServiceName(): string;
