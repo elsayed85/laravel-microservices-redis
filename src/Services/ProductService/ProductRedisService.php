@@ -8,6 +8,7 @@ use Elsayed85\LmsRedis\Traits\HasEvents;
 class ProductRedisService extends LmsRedis
 {
     use HasEvents;
+
     public function getServiceName(): string
     {
         return 'product';

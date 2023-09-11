@@ -14,7 +14,7 @@ class LmsRedisInstallCommand extends Command
     {
         $this->info('Installing Redis...');
 
-        if (!$this->installRedis()) {
+        if (! $this->installRedis()) {
             $this->error('Redis installation failed');
 
             return self::FAILURE;

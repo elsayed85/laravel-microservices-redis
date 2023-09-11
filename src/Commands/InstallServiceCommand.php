@@ -4,9 +4,10 @@ namespace Elsayed85\LmsRedis\Commands;
 
 use Elsayed85\LmsRedis\LmsRedis;
 use Elsayed85\LmsRedis\Utils\Service;
-use function Laravel\Prompts\select;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+
+use function Laravel\Prompts\select;
 
 class InstallServiceCommand extends Command
 {
@@ -17,9 +18,9 @@ class InstallServiceCommand extends Command
     public function handle(): void
     {
         $services = collect(Service::getAllServices());
-        $names = $services->map(fn($service) => class_basename($service));
+        $names = $services->map(fn ($service) => class_basename($service));
         $class = $this->selectService($names);
-        $class = $services->first(fn($service) => class_basename($service) === $class);
+        $class = $services->first(fn ($service) => class_basename($service) === $class);
 
         $this->publishVendorConfig();
 
@@ -69,6 +70,7 @@ class InstallServiceCommand extends Command
     private function getConfig($class)
     {
         $config = file_get_contents(config_path('lms-redis.php'));
+
         return str_replace(
             LmsRedis::class,
             $class,
@@ -78,13 +80,14 @@ class InstallServiceCommand extends Command
 
     private function getService($class)
     {
-        $serviceFile = __DIR__."/../Stubs/RedisService.stub";
+        $serviceFile = __DIR__.'/../Stubs/RedisService.stub';
         $service = file_get_contents($serviceFile);
         $service = str_replace(
             'BaseService::class',
-            $class." as BaseService",
+            $class.' as BaseService',
             $service
         );
+
         return str_replace(
             'ServiceName',
             class_basename($class),
@@ -94,7 +97,7 @@ class InstallServiceCommand extends Command
 
     private function getFunctions($events)
     {
-        $functionStub = file_get_contents(__DIR__."/../Stubs/PublishEventFunction.stub");
+        $functionStub = file_get_contents(__DIR__.'/../Stubs/PublishEventFunction.stub');
         $functions = '';
         foreach ($events as $event => $parameters) {
             $function = $functionStub;
@@ -107,6 +110,7 @@ class InstallServiceCommand extends Command
             }, $parameters)), $function);
             $functions .= $function;
         }
+
         return $functions;
     }
 
@@ -121,6 +125,7 @@ class InstallServiceCommand extends Command
     {
         $pramters = array_values($events);
         $pramters = array_unique(array_merge(...$pramters));
+
         return array_map(function ($param) {
             return 'use '.$param.';';
         }, $pramters);
@@ -133,6 +138,7 @@ class InstallServiceCommand extends Command
             implode("\n", $eventsImports),
             $service
         );
+
         return str_replace(
             '// pramters_import_here',
             implode("\n", $pramtersImports),
@@ -144,6 +150,7 @@ class InstallServiceCommand extends Command
     {
         $functions = "\t".str_replace("\n", "\n\t", $functions);
         $functions = str_replace("}\n\t", "}\n\n\t", $functions);
+
         return str_replace(
             '// functions_here',
             $functions,
@@ -154,7 +161,7 @@ class InstallServiceCommand extends Command
     private function createServiceFile($class, $service)
     {
         $servicesDirectory = app_path('Services');
-        if (!\File::exists($servicesDirectory)) {
+        if (! \File::exists($servicesDirectory)) {
             \File::makeDirectory($servicesDirectory, 0755, true);
         }
         $newServiceFile = $servicesDirectory.'/'.class_basename($class).'.php';

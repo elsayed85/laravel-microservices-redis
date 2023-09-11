@@ -30,8 +30,8 @@ class LmsRedisConsumeCommand extends Command
     {
         foreach ($this->redisService->getUnprocessedEvents() as $event) {
             match ($event['type']) {
-                    // Handel your events here
-                    // ProductEvent::CREATED => $this->handelProductCreatedEvent($event),
+                // Handel your events here
+                // ProductEvent::CREATED => $this->handelProductCreatedEvent($event),
                 default => null
             };
 

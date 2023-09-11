@@ -5,7 +5,6 @@ namespace Elsayed85\LmsRedis\Services\ProductService\Event;
 use Elsayed85\LmsRedis\Services\Event;
 use Elsayed85\LmsRedis\Services\ProductService\DTO\ProductData;
 use Elsayed85\LmsRedis\Services\ProductService\Enum\ProductEvent;
-use Elsayed85\LmsRedis\Services\RatingService\DTO\RatingData;
 
 class ProductCreatedEvent extends Event
 {

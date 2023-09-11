@@ -33,6 +33,7 @@ class LmsRedisServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton('lms-redis', function ($app) {
             $config = $app->make('config')->get('lms-redis.redis', []);
+
             return new RedisManager($app, Arr::pull($config, 'client', 'phpredis'), $config);
         });
     }
@@ -53,11 +54,11 @@ class LmsRedisServiceProvider extends PackageServiceProvider
     protected function publishLmsRedisConsumeCommand()
     {
         $this->publishes([
-            __DIR__ . '/Commands/LmsRedisConsumeCommand.php' => app_path('Console/Commands/LmsRedisConsumeCommand.php'),
+            __DIR__.'/Commands/LmsRedisConsumeCommand.php' => app_path('Console/Commands/LmsRedisConsumeCommand.php'),
         ], 'lms-redis-consume-command');
 
         $this->publishes([
-            __DIR__ . '/Stubs/RedisService.stub' => app_path('Services/RedisService.php'),
+            __DIR__.'/Stubs/RedisService.stub' => app_path('Services/RedisService.php'),
         ], 'lms-redis-service');
     }
 }
