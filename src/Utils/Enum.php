@@ -6,12 +6,13 @@ class Enum
 {
     private static function getEnumFiles($enumsNamespace)
     {
-        $dir = __DIR__ . '/../Services';
-        $files = glob($dir . '/*/Enum/*.php');
+        $dir = __DIR__.'/../Services';
+        $files = glob($dir.'/*/Enum/*.php');
         $namespace = 'Elsayed85\\LmsRedis\Services\\';
         $classes = array_map(function ($file) use ($dir, $namespace) {
-            $folder = str_replace([$dir . '/', '/'], ['', '\\'], dirname($file));
-            $file = $namespace . $folder . "\\" . pathinfo($file, PATHINFO_FILENAME);
+            $folder = str_replace([$dir.'/', '/'], ['', '\\'], dirname($file));
+            $file = $namespace.$folder.'\\'.pathinfo($file, PATHINFO_FILENAME);
+
             return class_exists($file) ? $file : null;
         }, $files);
 
@@ -24,7 +25,8 @@ class Enum
 
         return $services
             ->map(function ($service) {
-                $service = substr($service, 0, strrpos($service, '\\')) . '\\Enum';
+                $service = substr($service, 0, strrpos($service, '\\')).'\\Enum';
+
                 return self::getEnumFiles($service);
             })
             ->flatten()

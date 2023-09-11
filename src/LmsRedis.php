@@ -23,7 +23,7 @@ abstract class LmsRedis
 
     private function getProcessedEventKey(): string
     {
-        return $this->getServiceName() . '-' . $this->processedEventsKey;
+        return $this->getServiceName().'-'.$this->processedEventsKey;
     }
 
     public function publish(Event $event): void
@@ -75,7 +75,7 @@ abstract class LmsRedis
             (int) Carbon::now()->valueOf()
         );
 
-        if (!$events) {
+        if (! $events) {
             return [];
         }
 
@@ -93,6 +93,7 @@ abstract class LmsRedis
                     ['id' => $id]
                 );
                 $event['type'] = Enum::From($event['type']);
+
                 return $event;
             })->all();
     }
