@@ -4,29 +4,29 @@ return [
     'service' => \Elsayed85\LmsRedis\LmsRedis::class,
 
     'redis' => [
-        'client' => env('LMS_REDIS_CLIENT', 'phpredis'),
+        'client' => 'phpredis',
 
         'options' => [
-            'cluster' => env('LMS_REDIS_CLUSTER', 'redis'),
-            'prefix' => env('LMS_REDIS_PREFIX', 'database_'),
+            'cluster' => 'redis',
+            'prefix' => 'database_',
         ],
 
         'default' => [
-            'url' => env('LMS_REDIS_URL'),
-            'host' => env('LMS_REDIS_HOST', '127.0.0.1'),
-            'username' => env('LMS_REDIS_USERNAME'),
-            'password' => env('LMS_REDIS_PASSWORD'),
-            'port' => env('LMS_REDIS_PORT', '6379'),
-            'database' => env('LMS_REDIS_DB', '0'),
+            'url' => null,
+            'host' => '127.0.0.1',
+            'username' => null,
+            'password' => null,
+            'port' => '6379',
+            'database' => '0',
         ],
 
         'cache' => [
-            'url' => env('LMS_REDIS_URL'),
-            'host' => env('LMS_REDIS_HOST', '127.0.0.1'),
-            'username' => env('LMS_REDIS_USERNAME'),
-            'password' => env('LMS_REDIS_PASSWORD'),
-            'port' => env('LMS_REDIS_PORT', '6379'),
-            'database' => env('LMS_REDIS_CACHE_DB', '1'),
+            'url' => null,
+            'host' => '127.0.0.1',
+            'username' => null,
+            'password' => null,
+            'port' => '6379',
+            'database' => '1',
         ],
     ],
 ];

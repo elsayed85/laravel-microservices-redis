@@ -15,48 +15,65 @@ class CreateServiceCommand extends Command
 
     protected function handle($input, $output): int
     {
+        $name = $this->validateServiceName($input, $output);
+        if (!$name) {
+            return 1;
+        }
+
+        $nameLower = strtolower($name);
+        $serviceName = $this->getServiceName($name);
+
+        $baseDir = __DIR__ . '/../../../Services';
+        $dstDir = $baseDir . '/' . $serviceName;
+
+        $this->copyDirectory($baseDir . '/BaseService', $dstDir);
+        $this->renameAndReplaceInFiles($dstDir, $name, $serviceName, $nameLower);
+
+        $output->writeln('<info>Service created successfully!</info>');
+
+        return 0;
+    }
+
+    private function validateServiceName($input, $output)
+    {
         $name = $input->getArgument('name');
 
         if (preg_match('/^\d/', $name)) {
             $output->writeln('<error>Service name must not start with number!</error>');
-
-            return 1;
+            return false;
         }
 
         if (preg_match('/[^A-Za-z0-9]/', $name)) {
             $output->writeln('<error>Service name must not contain special characters!</error>');
-
-            return 1;
+            return false;
         }
+
+        if (str_starts_with($name, 'Redis') || str_starts_with($name, 'redis')) {
+            $output->writeln('<error>Service name must not start with Redis or redis!</error>');
+            return false;
+        }
+
 
         if (str_ends_with($name, 'Service')) {
             $name = str_replace('Service', '', $name);
         }
 
-        $name = ucfirst($name);
-        $nameLower = strtolower($name);
-        $serviceName = $this->getServiceName($name);
+        return ucfirst($name);
+    }
 
-        $baseDir = __DIR__.'/../../../Services';
-        $dstDir = $baseDir.'/'.$serviceName;
+    private function renameAndReplaceInFiles($dstDir, $name, $serviceName, $nameLower)
+    {
+        $this->renameFiles($dstDir . '/DTO', 'ServiceData', $name . 'Data'); // Dto
+        $this->renameFiles($dstDir . '/Enum', 'ServiceEvent', $name . 'Event'); // Enum
 
-        $this->copyDirectory($baseDir.'/BaseService', $dstDir);
-
-        $this->renameFiles($dstDir.'/DTO', 'ServiceData', $name.'Data'); // Dto
-        $this->renameFiles($dstDir.'/Enum', 'ServiceEvent', $name.'Event'); // Enum
-
-        $this->renameFiles($dstDir.'/Event', 'ServiceCreatedEvent', $name.'CreatedEvent'); // Event
-        $this->renameFiles($dstDir.'/Event', 'ServiceUpdatedEvent', $name.'UpdatedEvent'); // Event
-        $this->renameFiles($dstDir.'/Event', 'ServiceDeletedEvent', $name.'DeletedEvent'); // Event
-        $this->renameFiles($dstDir, 'RedisService', $name.'RedisService'); // Event
+        $this->renameFiles($dstDir . '/Event', 'ServiceCreatedEvent', $name . 'CreatedEvent'); // Event
+        $this->renameFiles($dstDir . '/Event', 'ServiceUpdatedEvent', $name . 'UpdatedEvent'); // Event
+        $this->renameFiles($dstDir . '/Event', 'ServiceDeletedEvent', $name . 'DeletedEvent'); // Event
+        $this->renameFiles($dstDir, 'RedisService', $name . 'RedisService'); // Event
 
         $this->replaceInFiles($dstDir, '{ServiceName}', $name);
         $this->replaceInFiles($dstDir, '{ServiceFullName}', $serviceName);
         $this->replaceInFiles($dstDir, '{ServiceNameLower}', $nameLower);
-
-        $output->writeln('<info>Service created successfully!</info>');
-
-        return 0;
     }
 
     private function copyDirectory($src, $dst)
@@ -71,9 +88,9 @@ class CreateServiceCommand extends Command
 
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($dst.'/'.$iterator->getSubPathName());
+                mkdir($dst . '/' . $iterator->getSubPathName());
             } else {
-                copy($item, $dst.'/'.$iterator->getSubPathName());
+                copy($item, $dst . '/' . $iterator->getSubPathName());
             }
         }
     }
@@ -82,7 +99,8 @@ class CreateServiceCommand extends Command
     {
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST);
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
 
         foreach ($iterator as $file) {
             if ($file->isFile() && $file->getExtension() === 'php') {
@@ -104,15 +122,15 @@ class CreateServiceCommand extends Command
             if ($file->isFile() && strpos($file->getFilename(), $search) !== false) {
                 $newName = str_replace($search, $replace, $file->getFilename());
                 $newName = str_replace('.stub', '.php', $newName);
-                rename($file->getRealPath(), $file->getPath().'/'.$newName);
+                rename($file->getRealPath(), $file->getPath() . '/' . $newName);
             }
         }
     }
 
     private function getServiceName($name): string
     {
-        if (! str_ends_with($name, 'Service')) {
-            return $name.'Service';
+        if (!str_ends_with($name, 'Service')) {
+            return $name . 'Service';
         }
 
         return $name;

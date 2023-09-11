@@ -4,30 +4,28 @@ namespace Elsayed85\LmsRedis\Utils;
 
 class Enum
 {
+    private static function getEnumFiles($enumsNamespace)
+    {
+        $dir = __DIR__ . '/../Services';
+        $files = glob($dir . '/*/Enum/*.php');
+        $namespace = 'Elsayed85\\LmsRedis\Services\\';
+        $classes = array_map(function ($file) use ($dir, $namespace) {
+            $folder = str_replace([$dir . '/', '/'], ['', '\\'], dirname($file));
+            $file = $namespace . $folder . "\\" . pathinfo($file, PATHINFO_FILENAME);
+            return class_exists($file) ? $file : null;
+        }, $files);
+
+        return array_filter($classes);
+    }
+
     private static function all()
     {
-        $services = scandir(__DIR__.'/../Services');
+        $services = collect(Service::getAllServices());
 
-        return collect($services)
-            ->filter(function ($service) {
-                return is_dir(__DIR__.'/../Services/'.$service);
-            })
-            ->reject(function ($service) {
-                return in_array($service, ['.', '..', 'BaseService']);
-            })
+        return $services
             ->map(function ($service) {
-                $enumFiles = scandir(__DIR__.'/../Services/'.$service.'/Enum');
-
-                return collect($enumFiles)
-                    ->reject(function ($file) {
-                        return in_array($file, ['.', '..']);
-                    })
-                    ->map(function ($file) use ($service) {
-                        $fileName = explode('.', $file)[0];
-
-                        return 'Elsayed85\\LmsRedis\\Services\\'.$service.'\\Enum\\'.$fileName;
-                    })
-                    ->toArray();
+                $service = substr($service, 0, strrpos($service, '\\')) . '\\Enum';
+                return self::getEnumFiles($service);
             })
             ->flatten()
             ->mapWithKeys(function ($file) {
