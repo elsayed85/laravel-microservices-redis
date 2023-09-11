@@ -45,13 +45,21 @@ src
         ├── ProductRedisService.php
 ```
 
-## Installation On Each Service
+# Installation On Each Service
 
 You can install the package via composer:
 
 ```bash
 composer require elsayed85/lms-redis "@dev"
 ```
+
+## Fast Installation
+
+```bash
+php artisan lms:install
+```
+
+## Manual Installation
 
 ### Config File [Required]
 
@@ -113,13 +121,13 @@ NOTE : You need to schedule function in App\Console\Kernel.php
 ```php
 protected function schedule(Schedule $schedule)
 {
-    $schedule->command('lms-redis:consume')->everyMinute();
+    $schedule->command('lms:consume')->everyMinute();
 }
 ```
 
 ## Usage
 
-#### Extend The Service Class
+#### Extend The Service Class [Fast Installation Do that for you]
 
 ```php
 <?php
